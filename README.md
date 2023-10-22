@@ -1,3 +1,18 @@
+Piotr Szczepaniak's solution
+=======================
+
+Alternative approach
+-------
+During my work on this assignment, I've developed two, closely related solutions. I prefer the first one (available in `StringUtil.contains()`), for its straightforwardness, however the second one (`StringUtilAlt.contains()`) is slightly more concise.
+
+Mutation tests
+-------
+Mutation testing has confirmed the 100% effectiveness and strength of unit tests:  
+![img.png](src/main/resources/img.png)  
+For a more detailed analysis, please refer to [/target/pit-reports/index.html](/target/pit-reports/index.html) after running `mvn clean test`.
+
+---
+
 DS interview assignment
 =======================
 
