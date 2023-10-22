@@ -42,15 +42,24 @@ public final class StringUtil {
 
         int pIndex = pattern.length() - 1;
         int sIndex = string.length() - 1;
+        boolean wildCardMode = false;
 
         while (sIndex >= 0 && pIndex >= 0) {
-            if (string.charAt(sIndex) == pattern.charAt(pIndex)) {
+            if (pattern.charAt(pIndex) == '*') {
+                pIndex--;
+                wildCardMode = true;
+            } else if (string.charAt(sIndex) == pattern.charAt(pIndex)) {
                 sIndex--;
                 pIndex--;
+                wildCardMode = false;
             } else {
                 sIndex--;
-                pIndex = pattern.length() - 1;
+                pIndex = !wildCardMode ? pattern.length() - 1 : pIndex; //reset to the end of the pattern if not in a wildCardMode
             }
+        }
+
+        while (pIndex >= 0 && pattern.charAt(pIndex) == '*') { //if any of the leftover pattern isn't a wildcard, the string doesn't contain full pattern
+            pIndex--;
         }
 
         return pIndex < 0;
