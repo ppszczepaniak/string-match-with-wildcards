@@ -36,8 +36,24 @@ public final class StringUtil {
      * @return true if the {@code string} contains a {@code pattern}, false otherwise.
      */
     public static boolean contains(String string, String pattern) {
-        // TODO: implement solution
-        return false;
+        if (string == null || pattern == null) {
+            return false;
+        }
+
+        int pIndex = pattern.length() - 1;
+        int sIndex = string.length() - 1;
+
+        while (sIndex >= 0 && pIndex >= 0) {
+            if (string.charAt(sIndex) == pattern.charAt(pIndex)) {
+                sIndex--;
+                pIndex--;
+            } else {
+                sIndex--;
+                pIndex = pattern.length() - 1;
+            }
+        }
+
+        return pIndex < 0;
     }
 
 }
