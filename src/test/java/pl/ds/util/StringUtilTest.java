@@ -151,4 +151,64 @@ class StringUtilTest {
         boolean result = StringUtil.contains(string, pattern);
         assertEquals(expected, result);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "****, \\*\\*\\*\\*, true",
+            "****, \\*\\*\\*\\**, true",
+            "****%$$*&T*//\\\\////, \\*\\*\\*\\**, true",
+            "****%$$*&T*//\\\\////, *\\*\\*\\*\\**, true",
+            "!@#$%^&*****%$$*&T*//\\\\////, *\\*\\*\\*\\**, true",
+            "'****%$$*&T*//\\\\////', *\\*\\*\\*\\**, true",
+            "'    ****%$$*&T*//\\\\////', *\\*\\*\\*\\**, true",
+            "'    ****%$$*&T*//\\\\////', *\\*\\*\\*\\*, true",
+            "'****%$$*&T*//\\\\////', *\\*\\*\\*\\*, true",
+            "'****%$$*&T*//\\\\////', *\\*\\*\\*\\**, true",
+            "'    ****', *\\*\\*\\*\\*, true",
+            "*, \\*, true",
+            "/, \\*, false",
+            "/*, \\*, true",
+            "/*, /\\*, true",
+            "*, /\\*, false",
+            "/*, \\*\\*, false",
+            "/*/, \\*\\*, false",
+            "/*/*, \\*\\*, false",
+            "/**, \\*\\*, true",
+            "*/*, \\*\\*, false",
+            "*/**, \\*\\*, true",
+            "*a**b, \\*\\*b, true",
+            "*a**a**b, \\*\\*b, true",
+            "**/, \\*\\*, true",
+            "**, \\*\\*, true",
+            "**, \\*\\**, true",
+            "**abwsd, \\*\\**, true",
+            "abc*, \\*, true",
+            "/*/*/*/*, \\*\\*\\*\\*, false",
+            "\\*, \\*, true",
+            "\\*a, \\*a, true",
+            "\\*\\*\\*\\*, \\*\\*\\*\\*, false",
+            "\\*\\*, \\*\\*, false",
+            "*\\*, \\*\\*, false",
+            "**********, \\*\\*\\*\\**, true",
+            "*, \\*\\*\\*\\**, false",
+            "*, \\, false",
+            "\\, \\, true",
+            "asd\\n, \\n, true", //special cases
+            "\ta, \ta, true",
+            "\ta, '\t a', false",
+            "\\b, \\b, true",
+            "asd\\b, asd\\b, true",
+            "\\r, \\r, true",
+            "aa\\r, aa\\r, true",
+            "\\f, \\f, true",
+            "aa\\f, aa\\f, true",
+            "\\', \\', true",
+            "aa\\', aa\\', true",
+            "\\\", \\\", true",
+            "aa\\\", aa\\\", true",
+    }, nullValues = {"NULL"})
+    void escapedCharsTests(String string, String pattern, boolean expected) {
+        boolean result = StringUtil.contains(string, pattern);
+        assertEquals(expected, result);
+    }
 }
