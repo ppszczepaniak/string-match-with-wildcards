@@ -43,15 +43,21 @@ public final class StringUtil {
         int pIndex = pattern.length() - 1;
         int sIndex = string.length() - 1;
         boolean wildCardMode = false;
+        boolean escapedMode = false;
 
         while (sIndex >= 0 && pIndex >= 0) {
-            if (pattern.charAt(pIndex) == '*') {
+            if (pattern.charAt(pIndex) == '*' && pIndex - 1 >= 0 && pattern.charAt(pIndex - 1) == '\\') {
+                escapedMode = true;
+            }
+
+            if (!escapedMode && pattern.charAt(pIndex) == '*') {
                 pIndex--;
                 wildCardMode = true;
             } else if (string.charAt(sIndex) == pattern.charAt(pIndex)) {
                 sIndex--;
-                pIndex--;
+                pIndex = escapedMode ? pIndex - 2 : pIndex - 1;
                 wildCardMode = false;
+                escapedMode = false;
             } else {
                 sIndex--;
                 pIndex = !wildCardMode ? pattern.length() - 1 : pIndex; //reset to the end of the pattern if not in a wildCardMode
