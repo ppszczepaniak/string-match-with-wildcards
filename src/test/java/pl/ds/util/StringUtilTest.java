@@ -91,4 +91,64 @@ class StringUtilTest {
         boolean result = StringUtil.contains(string, pattern);
         assertEquals(expected, result);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "'', ****, true",
+            "'', *, true",
+            "*, '', true",
+            "a, ****, true",
+            "*, *, true",
+            "abc, *, true",
+            "abc, a*b*c*, true",
+            "abc, a***b***c***, true",
+            "abc, a***b***c, true",
+            "abc, ab***c, true",
+            "abc, **ab*c, true",
+            "abc, *, true",
+            "abc, ***, true",
+            "abc, ********, true",
+            "'   aasghdfgfTGBJHOghjkgfhjg2  !@#$%^& bc', *, true",
+            "abcdefghijk, abcdefghijk*, true",
+            "abcdefghijk, abcdefghijk*******, true",
+            "abcdefghijk, *abcdefghijk*******, true",
+            "abcdefghijk, *******abcdefghijk*******, true",
+            "abcdefghij, *******abcdefghijk*******, false",
+            "abcdefghijk, *******abcdefghij*******, true",
+            "abcdeafghiajk, *******a*******, true",
+            "abcdefghijk, '******* *******', false",
+            "'abcd efghijk', '******* *******', true",
+            "' ', '******* *******', true",
+            "'       ', '******* *******', true",
+            "'       a', '******* *******', true",
+            "' a', '* *', true",
+            "' a ', '* *', true",
+            "'a ', '* *', true",
+            "'       *', '******* *******', true",
+            "'******* *******', '******* *******', true",
+            "'* *', '******* *******', true",
+            "'abc hijk', abc hijk*, true",
+            "abcdefgh, *a*b*c*d*e*f*g*h*, true",
+            "abcdefgh, *abcdefgh, true",
+            "abcdefgh, a*bcdefgh, true",
+            "a, a*bcdefgh, false",
+            "bcdefgh, a*bcdefgh, false",
+            "abcdefgh, abcd****efgh, true",
+            "abcd#@E$R%T^&Y*()(*efgh, abcd****efgh, true",
+            "bzxca, b*a, true",
+            "bza, b*a, true",
+            "ba, b*a, true",
+            "ba, *a, true",
+            "bbbbba, *a, true",
+            "bbbbbaaaaa, *a, true",
+            "baaaa, *a, true",
+            "abcd#@E$R%T^&Y*()(*efgh, abcd*efgh, true",
+            "abcd__________/efgh, abcd****efgh, true",
+            "abcdefgh, abcdefgh*, true",
+            "abcdefgh, abcdefgh****, true",
+    }, nullValues = {"NULL"})
+    void wildcardsTests(String string, String pattern, boolean expected) {
+        boolean result = StringUtil.contains(string, pattern);
+        assertEquals(expected, result);
+    }
 }
